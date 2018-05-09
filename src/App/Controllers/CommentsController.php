@@ -20,6 +20,7 @@ class CommentsController
         $this->db = $pdo;
     }
 
+    //This gets all comments but limits it to 20 and sorts them in descending order
     public function getAll()
     {
         $getAll = $this->db->prepare('SELECT * FROM comments ORDER BY commentID DESC LIMIT 20');
@@ -29,6 +30,7 @@ class CommentsController
         return $allComments;
     }
 
+    //This just gets one comment that matches '/comments/{is}'
     public function getOne($id)
     {
         $getOne = $this->db->prepare('SELECT * FROM comments WHERE commentID = :commentID');
@@ -36,18 +38,14 @@ class CommentsController
         return $getOne->fetch();
     }
 
+    //This adds a comment
     public function post($comments)
     {
-        /**
-         * Default 'completed' is false so we only need to insert the 'content'
-         */
+
         $addOne = $this->db->prepare(
             'INSERT INTO comments (content, createdAt, createdBy) VALUES (:content, :createdAt, :createdBy)'
         );
 
-        /**
-         * Insert the value from the parameter into the database
-         */
         $addOne->execute([
           ':content'  => $comments['content'],
           ':createdAt' => $comments['createdAt'],
@@ -55,6 +53,7 @@ class CommentsController
         ]);
     }
 
+    //This deletes the chosen comment
     public function delete($id)
     {
         $deleteOne = $this->db->prepare(
