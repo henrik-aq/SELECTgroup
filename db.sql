@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 09, 2018 at 12:04 PM
+-- Generation Time: May 16, 2018 at 08:13 AM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.1.5
 
@@ -41,12 +41,13 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`commentID`, `entryID`, `content`, `createdBy`, `createdAt`) VALUES
-(3, 0, 'Hej det här är en blopggpost2', 1, '2018-05-06 00:00:03'),
-(5, 0, 'blogg en', 1, '2018-05-06 00:00:06'),
-(6, 0, 'blogg två', 1, '2018-05-06 00:00:06'),
-(7, 0, 'blogg tre', 1, '2018-05-06 00:00:06'),
-(8, 0, 'mer text4354', 0, '0000-00-00 00:00:00'),
-(9, 0, 'kommentar', 0, '2018-05-06 00:00:08');
+(3, 1, 'Blogg1', 1, '2018-05-06 00:00:03'),
+(5, 2, 'Blogg2', 1, '2018-05-06 00:00:06'),
+(6, 1, 'Blogg3', 1, '2018-05-06 00:00:06'),
+(7, 3, 'Blogg4', 1, '2018-05-06 00:00:06'),
+(8, 2, 'Blogg5', 2, '0000-00-00 00:00:00'),
+(9, 2, 'Blogg6', 2, '2018-05-06 00:00:08'),
+(10, 4, 'Blogg7', 2, '2018-05-06 00:00:23');
 
 -- --------------------------------------------------------
 
@@ -67,10 +68,11 @@ CREATE TABLE `entries` (
 --
 
 INSERT INTO `entries` (`entryID`, `title`, `content`, `createdBy`, `createdAt`) VALUES
-(1, 'Hej', 'Det här är text', 0, '0000-00-00 00:00:00'),
-(2, 'Hej', 'Det här är text', 1, '0000-00-00 00:00:00'),
-(3, 'Tredje', 'lite text', 0, '2018-04-16 00:00:00'),
-(4, 'Rubrik2', 'mer text4354', 1, '2018-04-16 00:00:00');
+(1, 'Hej1', 'Blogg1', 2, '0000-00-00 00:00:00'),
+(2, 'Hej2', 'Blogg2', 1, '0000-00-00 00:00:00'),
+(3, 'Hej3', 'Blogg3', 2, '2018-04-16 00:00:00'),
+(4, 'Hej4', 'Blogg4', 1, '2018-04-16 00:00:00'),
+(5, 'datumtest', 'testar datum', 1, '2018-05-15 13:35:22');
 
 -- --------------------------------------------------------
 
@@ -90,7 +92,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `username`, `password`, `createdAt`) VALUES
-(1, 'henrik', 'henrik', '2018-05-06 00:00:00');
+(1, 'henrik', 'henrik', '2018-05-06 00:00:00'),
+(27, 'hei', '$2y$10$Zr0u/ekcewEy/tMkEwglweS5dDySsxOgLXPiYbidsasumoIEKs3yC', '2018-05-15 17:39:32'),
+(28, 'jesper', '$2y$10$/URusidGMuUB4eBkNyD2eO4zoQgaClS7a5045jiogMlU0upQun842', '2018-05-16 10:10:17');
 
 --
 -- Indexes for dumped tables
@@ -122,7 +126,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `commentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `entries`
 --
@@ -132,7 +136,7 @@ ALTER TABLE `entries`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
