@@ -124,6 +124,12 @@ $app->group('/api', function () use ($app) {
         return $response->withJson(['data' => $newEntry]);
     });
 
+    //Entries - Get all entries by a user specified user - GET http://localhost:XXXX/api/users/{id}/entries
+    $app->get('/users/{id}/entries', function ($request, $response, $args) {
+        $allEntriesByUser = $this->entries->getEntriesById($args['id']);
+        return $response->withJson($allEntriesByUser);
+    });
+
 // --------------------------- END ENTRIES ROUTES --------------------------------------
 
 // --------------------------- COMMENTS ROUTES -----------------------------------------
@@ -154,18 +160,34 @@ $app->group('/api', function () use ($app) {
         $this->comments->delete($id);
     });
 
+    //Comments - Get all comments connected to a specific entry defined by the user - GET http://localhost:XXXX/api/entries/{id}/comments
+    $app->get('/entries/{id}/comments', function ($request, $response, $args) {
+        $allCommentsByEntry = $this->comments->getCommentsById($args['id']);
+        return $response->withJson($allCommentsByEntry);
+    });
+
 // ---------------------- END COMMENTS ROUTES ------------------------------------------
 
 // ----------------------- USER ROUTES ------------------------------------------------
  
+    //Users - Get all users - GET http://localhost:XXXX/api/users
     $app->get('/users', function ($request, $response, $args) {
         $allUsers = $this->users->getAll();
         return $response->withJson($allUsers);
     });
 
+    //Users - Get one specified user - GET http://localhost:XXXX/api/users/{id}
     $app->get('/users/{id}', function ($request, $response, $args) {
         $allUsers = $this->users->getOne($args['id']);
         return $response->withJson($allUsers);
+    });
+
+    //Users - Register a user - POST http://localhost:XXXX/api/register
+    $app->post('/register', function ($request, $response, $args) {
+        $body = $request->getParsedBody();
+        $newUser = $this->users->register($body);
+        $url = '../index.php';
+        return $response->withJson(['data' => $newUser])->withHeader('Location', $url); //The withHeader part redirects after data is sent
     });
 });
 

@@ -1,17 +1,46 @@
-main();
-
+/*
 function main(){
-  fetch('api/entries')
+  fetch('http://localhost:3030/api/entries')
     .then(res => res.json())
     .then(console.log);
 }
+*/
 
 function getAllUsers(){
-  fetch('api/users')
-    .then(res => res.json())
-    .then(console.log);
+fetch('http://localhost:3030/api/users').then(response => {
+  return response.json();
+}).then(data => {
+  var i;
+  for(i in data) {
+    var node = document.createElement("LI");
+    var textnode = document.createTextNode(data[i].username + ' ' + data[i].createdAt);
+    node.appendChild(textnode);
+    document.getElementById("userList").appendChild(node);
+  }
+}).catch(err => {
+  console.log('Error of some kind');
+});
 }
 
+function getAllPosts(){
+  fetch('http://localhost:3030/api/entries').then(response => {
+    return response.json();
+  }).then(data => {
+    var i;
+    for(i in data.data) {
+      var node = document.createElement("LI");
+      var textnode = document.createTextNode(data.data[i].title + ' ' + data.data[i].content);
+      node.appendChild(textnode);
+      document.getElementById("entryList").appendChild(node);
+    }
+  }).catch(err => {
+    console.log('Error of some kind');
+  });
+  }
+
+
+
+/*
 function postTodo(){
   // x-www-form-urlencoded
   const formData = new FormData();
@@ -57,3 +86,4 @@ form.addEventListener('submit', function (e) {
 
 const addTodoButton = document.getElementById('addTodo');
 addTodoButton.addEventListener('click', postTodo);
+*/
