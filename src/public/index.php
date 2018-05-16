@@ -1,6 +1,5 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-    session_set_cookie_params(3600);
     session_start();
 }
 
@@ -56,7 +55,8 @@ $app->post('/login', function ($request, $response, $args) {
     if (password_verify($body['password'], $user['password'])) {
         $_SESSION['loggedIn'] = true;
         $_SESSION['userID'] = $user['id'];
-        return $response->withJson(['data' => [ $user['id'], $user['username'] ]]);
+        $url = 'views/index.php';
+        return $response->withJson(['data' => [ $user['id'], $user['username'] ]])->withHeader('Location', $url);
     }
     return $response->withJson(['error' => 'wrong password']);
 });
@@ -81,8 +81,7 @@ $app->group('/api', function () use ($app) {
 // -------------------------------- ENTRIES ROUTES --------------------------------
 
     // Entries - Get last 20 entries - GET http://localhost:XXXX/api/entries
-    $app->get('/entries', function ($request, $response, $args) {
-
+    $app->get('/entries', function ($request, $response, $args) {	
         $allEntries = $this->entries->getAll();
         /**
          * Wrapping the data when returning as a safety thing

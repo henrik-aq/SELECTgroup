@@ -11,6 +11,7 @@ class UserController
         $this->db = $pdo;
     }
 
+    // I want all them users!
     public function getAll()
     {
         $getAllUsers = $this->db->prepare(
@@ -20,6 +21,7 @@ class UserController
         return $allUsers;
     }
 
+    //This gets one specified user
     public function getOne($id)
     {
         $getOneUser = $this->db->prepare(
