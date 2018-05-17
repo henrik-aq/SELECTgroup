@@ -1,11 +1,3 @@
-/*
-function main(){
-  fetch('http://localhost:3030/api/entries')
-    .then(res => res.json())
-    .then(console.log);
-}
-*/
-
 function getAllUsers(){
 fetch('http://localhost:3030/api/users').then(response => {
   return response.json();
@@ -18,9 +10,10 @@ fetch('http://localhost:3030/api/users').then(response => {
     document.getElementById("userList").appendChild(node);
   }
 }).catch(err => {
-  console.log('Error of some kind');
+  console.log('Error of some kind in users');
 });
 }
+
 
 function getAllPosts(){
   fetch('http://localhost:3030/api/entries').then(response => {
@@ -34,7 +27,7 @@ function getAllPosts(){
       document.getElementById("entryList").appendChild(node);
     }
   }).catch(err => {
-    console.log('Error of some kind');
+    console.log('Error of some kind in Entries');
   });
   }
 

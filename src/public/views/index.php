@@ -1,19 +1,16 @@
-<?php require_once ('partials/header.php'); ?>
-<script>getAllUsers();</script>
-<script>getAllPosts();</script>
+<?php require ('partials/header.php'); ?>
 <?php require_once ('partials/nav.php');?>
 
-<?php require_once ('partials/login.php');?>
-
+<?php if (isset($_SESSION["loggedIn"])): ?>
+<!-- <script>getAllUsers();</script> -->
+<p>Du är redan inloggad!</p>
+<?php endif; ?>
 
 <?php if (!isset($_SESSION["loggedIn"])): ?>
-<ul id="userList">
-</ul>
+<p>Registera dig eller logga in om du redan är användare!</p>
+<?php require_once ('partials/register.php');?>
+<?php require_once ('partials/login.php');?>
+
 <?php endif; ?>
 
-<?php if (isset($_SESSION["loggedIn"])): ?>
-<ul id="entryList">
-</ul>
-<?php endif; ?>
-
-<?php require_once ('partials/footer.php'); ?>
+<?php require ('partials/footer.php'); ?>

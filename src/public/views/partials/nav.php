@@ -4,8 +4,17 @@
       <a class="navbar-brand" href="#">PHP</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+      <?php if (!isset($_SESSION["loggedIn"])): ?>
+        <li><a href="/index.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="/index.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <?php endif; ?>
+      
+      <?php if (isset($_SESSION["loggedIn"])): ?>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Admin</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      <?php endif; ?>
+      
     </ul>
   </div>
 </nav>

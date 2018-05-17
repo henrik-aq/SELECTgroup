@@ -54,9 +54,10 @@ $app->post('/login', function ($request, $response, $args) {
     $user = $fetchUserStatement->fetch();
     if (password_verify($body['password'], $user['password'])) {
         $_SESSION['loggedIn'] = true;
-        $_SESSION['userID'] = $user['id'];
-        $url = 'views/index.php';
-        return $response->withJson(['data' => [ $user['id'], $user['username'] ]])->withHeader('Location', $url);
+        $_SESSION['userID'] = $user['userID'];
+        $_SESSION['username'] = $user['username'];
+        $url = 'views/entry_page.php';
+        return $response->withJson(['data' => [ $user['userID'], $user['username'] ]])->withHeader('Location', $url);
     }
     return $response->withJson(['error' => 'wrong password']);
 });
@@ -67,7 +68,8 @@ $app->post('/login', function ($request, $response, $args) {
 $app->get('/logout', function ($request, $response, $args) {
     // No request data is being sent
     session_destroy();
-    return $response->withJson('Success');
+    $url = '../index.php';
+    return $response->withHeader('Location', $url);
 });
 
 

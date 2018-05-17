@@ -8,7 +8,7 @@
 <div class="form-group">
   <label for="username">Username</label>  
   <div class="col-md-12">
-  <input id="username" name="username" type="text" placeholder="username" class="form-control input-md">
+  <input id="usernamelogin" name="username" type="text" placeholder="username" class="form-control input-md">
     
   </div>
 </div>
@@ -17,7 +17,7 @@
 <div class="form-group">
   <label for="password">Password</label>
   <div class="col-md-12">
-    <input id="password" name="password" type="password" placeholder="password" class="form-control input-md">
+    <input id="passwordlogin" name="password" type="password" placeholder="password" class="form-control input-md">
     
   </div>
 </div>
@@ -26,7 +26,7 @@
 <div class="form-group">
   <label for="submit"></label>
   <div class="col-md-12">
-    <button id="submit" name="submit" class="btn btn-primary btn-block">Login</button>
+    <button id="submitlogin" name="submit" class="btn btn-primary btn-block">Login</button>
   </div>
 </div>
 
