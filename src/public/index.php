@@ -128,7 +128,7 @@ $app->group('/api', function () use ($app) {
     //Entries - Get all entries by a user specified user - GET http://localhost:XXXX/api/users/{id}/entries
     $app->get('/users/{id}/entries', function ($request, $response, $args) {
         $allEntriesByUser = $this->entries->getEntriesById($args['id']);
-        return $response->withJson($allEntriesByUser);
+        return $response->withJson(['data' => $allEntriesByUser]);
     });
 
 // --------------------------- END ENTRIES ROUTES --------------------------------------
@@ -164,7 +164,7 @@ $app->group('/api', function () use ($app) {
     //Comments - Get all comments connected to a specific entry defined by the user - GET http://localhost:XXXX/api/entries/{id}/comments
     $app->get('/entries/{id}/comments', function ($request, $response, $args) {
         $allCommentsByEntry = $this->comments->getCommentsById($args['id']);
-        return $response->withJson($allCommentsByEntry);
+        return $response->withJson(['data' => $allCommentsByEntry]);
     });
 
 // ---------------------- END COMMENTS ROUTES ------------------------------------------

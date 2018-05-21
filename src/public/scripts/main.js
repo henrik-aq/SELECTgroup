@@ -15,6 +15,31 @@ fetch('http://localhost:3030/api/users').then(response => {
 }
 
 
+
+function getAllPosts1(){
+  fetch('http://localhost:3030/api/entries').then(response => {
+    return response.json();
+  }).then(data => {
+      var temp, item, a, i;
+      //get the template element:
+      temp = document.getElementsByTagName("template")[0];
+      //get the DIV element from the template:
+      item = temp.content.querySelector("div");
+      //for each item in the array:
+      for (i in data.data) {
+        //Create a new node, based on the template:
+        a = document.importNode(item, true);
+        //Add data from the array:
+        a.textContent += data.data[i].title;
+        //append the new node wherever you like:
+        document.body.appendChild(a);
+      }
+
+  }).catch(err => {
+    console.log('Error of some kind in Entries');
+  });
+  }
+
 function getAllPosts(){
   fetch('http://localhost:3030/api/entries').then(response => {
     return response.json();
@@ -31,7 +56,25 @@ function getAllPosts(){
   });
   }
 
-
+  function getAllPostsByUser(id){
+    fetch('http://localhost:3030/api/users/' + id + '/entries').then(response => {
+      return response.json();
+    }).then(data => {
+      var i;
+      for(i in data.data) {
+        var node = document.createElement("LI");
+        var btn = document.createElement("BUTTON"); 
+        var textnode = document.createTextNode(data.data[i].title + ' ' + data.data[i].content);
+        var t = document.createTextNode("Delete");       
+        btn.appendChild(t);                                                 // Append <button> to <body>
+        node.appendChild(textnode);
+        node.appendChild(btn);
+        document.getElementById("entryList").appendChild(node);
+      }
+    }).catch(err => {
+      console.log('Error of some kind in Entries');
+    });
+    }
 
 /*
 function postTodo(){
