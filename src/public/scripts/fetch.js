@@ -45,6 +45,29 @@ var api = (function(){
         });
     }
 
+
+    async function deleteOneComment(id){
+        fetch(`http://localhost:3030/api/comments/${id}`, {
+          method: "DELETE"
+        }).then( function() {
+          console.log("Deleted!");
+        });
+      }
+
+      async function createOneComment(content){
+        fetch('http://localhost:3030/api/comments',{
+            method: 'POST',
+            body: JSON.stringify(content),
+            headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            credentials: 'include'
+            }
+        }).then( function(data) {
+            console.log('Request success:');
+        });
+    }
+
     return {
         getAllEntries:getAllEntries,
         getOneEntry:getOneEntry,
@@ -52,5 +75,7 @@ var api = (function(){
         postEntry:postEntry,
         getAllComments:getAllComments,
         getCommentsByEntry:getCommentByEntry,
+        deleteOneComment:deleteOneComment,
+        createOneComment:createOneComment,
     };
 })();

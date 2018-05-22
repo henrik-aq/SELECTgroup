@@ -16,27 +16,53 @@ window.onload = async function showAll(){
     var contentNode = document.createElement("P");
     var contentText = document.createTextNode(data.data[i].content);
 
-    var inputBox = document.createElement("INPUT");
-    inputBox.setAttribute("type", "text");
+    let commentForm = document.createElement("form");
+     commentForm.setAttribute("action","/comments");
+     commentForm.setAttribute("method","post");
+     commentForm.setAttribute("class","new-comment-btn-form");
+
+    var inputBox = document.createElement("textarea");
+    inputBox.setAttribute("type", "input");
+    inputBox.setAttribute("name","content");
 
     var inputButton = document.createElement("INPUT");
-    inputButton.setAttribute("type", "button");
+    inputButton.setAttribute("type","submit");
     inputButton.setAttribute("value", "Send");
+    inputButton.setAttribute("value","Comment");
+    inputButton.setAttribute("name","commentButton");
+
+    commentForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      createOneComment(e);
+    }); 
 
     titleNode.appendChild(titleText);
     contentNode.appendChild(contentText);
 
+    commentForm.appendChild(inputBox);
+    commentForm.appendChild(inputButton);
 
     document.getElementById('entryList').appendChild(container).appendChild(titleNode);
     document.getElementById('entryList').appendChild(container).appendChild(contentNode);
-    document.getElementById('entryList').appendChild(container).appendChild(inputBox);
-    document.getElementById('entryList').appendChild(container).appendChild(inputButton);
+    document.getElementById('entryList').appendChild(container).appendChild(commentForm);
+
+    
+    
 
     for(var y = 0; y < commentData.data.length; y++){
+
+      var id = commentData.data[y].commentID;
+
+    var inputButton = document.createElement("INPUT");
+      inputButton.setAttribute("type", "button");
+      inputButton.setAttribute("value", "remove");
+      inputButton.setAttribute("onclick", "deleteOneComment("+ id + ");");
+
       var commentNode = document.createElement("p");
       var commentText = document.createTextNode(commentData.data[y].content);
       commentNode.appendChild(commentText);
       document.getElementById('entryList').appendChild(container).appendChild(commentNode);
+      document.getElementById('entryList').appendChild(container).appendChild(inputButton);
     }
 
   }
@@ -55,6 +81,18 @@ async function getCommentsByEntry(id){
 }
 
 
+async function deleteOneComment(id){
+  let response = await api.deleteOneComment(id);
+  return response;
+}
+
+async function createOneComment(e) {
+  let data = {
+    "entryID": e.target.elements["entryID"].value,
+    "content": e.target.elements["content"].value
+  };
+  api.createOneComment(data);
+ }
 
 
 

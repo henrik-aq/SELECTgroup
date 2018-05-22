@@ -71,7 +71,7 @@ class CommentsController
     public function getCommentsById($id)
     {
         $getCommentsById = $this->db->prepare(
-        "SELECT comments.content 
+        "SELECT comments.content, comments.commentID
         FROM comments
         INNER JOIN entries ON entries.entryID = comments.entryID
         WHERE entries.entryID = :entryID");
