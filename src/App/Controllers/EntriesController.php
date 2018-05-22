@@ -94,4 +94,12 @@ class EntriesController
             ":content" => $content['content']
       ]);
     }
+
+    // 
+    public function getTitle($title)
+    {
+      $getTitle = $this->db->prepare('SELECT * FROM entries WHERE title = :title');
+      $getTitle->execute([':title' => $title]);
+      return $getTitle->fetchAll();
+    } 
 }

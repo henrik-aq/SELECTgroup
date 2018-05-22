@@ -131,6 +131,12 @@ $app->group('/api', function () use ($app) {
         return $response->withJson(['data' => $allEntriesByUser]);
     });
 
+    // Entries - Get searched title - GET http://localhost:XXXX/api/entries/title/{title}
+    $app->get('/entries/title/{title}', function ($request, $response, $args) {
+        $getTitle = $this->entries->getTitle($args['title']);
+        return $response->withJson(['data' => $getTitle]);
+      }); 
+
 // --------------------------- END ENTRIES ROUTES --------------------------------------
 
 // --------------------------- COMMENTS ROUTES -----------------------------------------

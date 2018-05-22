@@ -1,4 +1,66 @@
-function getAllUsers(){
+window.onload = async function showAll(){
+  var data = await getAllEntries();
+  console.log(data);
+
+  var i;
+  for(i in data.data){
+    
+    var id = data.data[i].entryID;
+    var commentData = await getCommentsByEntry(id);
+
+    var container = document.createElement("DIV");
+
+    var titleNode = document.createElement("H3");
+    var titleText = document.createTextNode(data.data[i].title);
+    
+    var contentNode = document.createElement("P");
+    var contentText = document.createTextNode(data.data[i].content);
+
+    var inputBox = document.createElement("INPUT");
+    inputBox.setAttribute("type", "text");
+
+    var inputButton = document.createElement("INPUT");
+    inputButton.setAttribute("type", "button");
+    inputButton.setAttribute("value", "Send");
+
+    titleNode.appendChild(titleText);
+    contentNode.appendChild(contentText);
+
+
+    document.getElementById('entryList').appendChild(container).appendChild(titleNode);
+    document.getElementById('entryList').appendChild(container).appendChild(contentNode);
+    document.getElementById('entryList').appendChild(container).appendChild(inputBox);
+    document.getElementById('entryList').appendChild(container).appendChild(inputButton);
+
+    for(var y = 0; y < commentData.data.length; y++){
+      var commentNode = document.createElement("p");
+      var commentText = document.createTextNode(commentData.data[y].content);
+      commentNode.appendChild(commentText);
+      document.getElementById('entryList').appendChild(container).appendChild(commentNode);
+    }
+
+  }
+
+};
+
+
+async function getAllEntries(){
+  let response = await api.getAllEntries();
+  return response;
+}
+
+async function getCommentsByEntry(id){
+  let response = await api.getCommentsByEntry(id);
+  return response;
+}
+
+
+
+
+
+
+
+/**function getAllUsers(){
 fetch('http://localhost:3030/api/users').then(response => {
   return response.json();
 }).then(data => {
@@ -40,16 +102,47 @@ function getAllPosts1(){
   });
   }
 
+
+
+function getCommments(id){
+  fetch('http://localhost:3030/api/entries/'+ id + '/comments').then(response => {
+    return response.json();
+  }).then(data => {
+    var i;
+    for(i in data.data) {
+      let data1 = data.data[i].content;
+       console.log(data1);
+    }
+  });
+}
+
+
 function getAllPosts(){
   fetch('http://localhost:3030/api/entries').then(response => {
     return response.json();
   }).then(data => {
     var i;
     for(i in data.data) {
-      var node = document.createElement("LI");
-      var textnode = document.createTextNode(data.data[i].title + ' ' + data.data[i].content);
-      node.appendChild(textnode);
-      document.getElementById("entryList").appendChild(node);
+      var id = data.data[i].entryID;
+      var comment = getCommments(id);
+
+      var container = document.createElement("DIV");
+      
+      var nodetitle = document.createElement("H3");
+      var nodecontent = document.createElement("P");
+      var nodeCommentContent = document.createElement("P");
+      
+      var textnodetitle = document.createTextNode(data.data[i].title + ' ID: ' + data.data[i].entryID + ' Created By ' + data.data[i].createdBy);
+      var textnodecontent = document.createTextNode(data.data[i].content);
+      var textNodeCommentContent = document.createTextNode(comment);
+      
+      nodetitle.appendChild(textnodetitle);
+      nodecontent.appendChild(textnodecontent);
+      nodeCommentContent.appendChild(textNodeCommentContent);
+
+      document.getElementById("entryList").appendChild(container).appendChild(nodetitle);
+      document.getElementById("entryList").appendChild(container).appendChild(nodecontent);
+      document.getElementById("entryList").appendChild(container).appendChild(nodeCommentContent);
     }
   }).catch(err => {
     console.log('Error of some kind in Entries');
