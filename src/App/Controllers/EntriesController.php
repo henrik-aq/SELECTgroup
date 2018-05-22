@@ -11,10 +11,11 @@ class EntriesController
         $this->db = $pdo;
     }
 
-    //This gets all entries but limits it to 20 and sorts i descending order
+    //This gets all entries but limits it to 20 and sorts in descending order
     public function getAll()
     {
-        $getAllEntries = $this->db->prepare("SELECT * FROM entries ORDER BY entryID DESC LIMIT 20");
+        $getAllEntries = $this->db->prepare(
+            "SELECT * FROM entries ORDER BY entryID DESC LIMIT 20");
         $getAllEntries->execute();
         $allEntries = $getAllEntries->fetchAll();
         return $allEntries;
@@ -23,7 +24,8 @@ class EntriesController
     // This gets one entry at '/entries/{id}'
     public function getOne($id)
     {
-        $getOneEntry = $this->db->prepare("SELECT * FROM entries WHERE entryID = :entryID");
+        $getOneEntry = $this->db->prepare(
+            "SELECT * FROM entries WHERE entryID = :entryID");
         $getOneEntry->execute([
           ":entryID" => $id
         ]);
@@ -32,17 +34,35 @@ class EntriesController
         return $oneEntry;
     }
 
-    //This posts one entry to database
+    //This gets all entries from a specified user
+    public function getEntriesById($id)
+    {
+        $getEntriesById = $this->db->prepare(
+        "SELECT entries.title, entries.content, entries.createdBy
+        FROM entries
+        INNER JOIN users ON users.userID = entries.createdBy
+        WHERE entries.createdBy = :createdBy");
+        $getEntriesById->execute([
+          ":createdBy" => $id
+        ]);
+        $allEntriesFromUser = $getEntriesById->fetchAll();
+        return $allEntriesFromUser;
+    }
+
+    //This posts one entry to database and adds date
     public function post($entries)
     {
         $addOne = $this->db->prepare(
-            'INSERT INTO entries (title ,content, createdAt, createdBy) VALUES (:title, :content, :createdAt, :createdBy)'
-        );
+            'INSERT INTO entries (title ,content, createdAt, createdBy)
+            VALUES (:title, :content, :createdAt, :createdBy)');
+
+        date_default_timezone_set('Europe/Stockholm');
+        $date = date("Y-m-d H:i:s");
 
         $addOne->execute([
           ':title'  => $entries['title'],
           ':content'  => $entries['content'],
-          ':createdAt' => $entries['createdAt'],
+          ':createdAt' => $date,
           ':createdBy' => $entries['createdBy']
         ]);
     }
@@ -64,7 +84,9 @@ class EntriesController
      */ 
     public function update($content, $id)
     {
-        $newUpdate = $this->db->prepare('UPDATE entries SET title = :title, content = :content WHERE entryID = :entryID');
+        $newUpdate = $this->db->prepare(
+            'UPDATE entries SET title = :title, content = :content
+            WHERE entryID = :entryID');
         
         $newUpdate->execute([
             ":entryID" => $id,
@@ -73,4 +95,3 @@ class EntriesController
       ]);
     }
 }
-

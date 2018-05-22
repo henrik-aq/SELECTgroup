@@ -1,6 +1,5 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-    session_set_cookie_params(3600);
     session_start();
 }
 
@@ -55,8 +54,10 @@ $app->post('/login', function ($request, $response, $args) {
     $user = $fetchUserStatement->fetch();
     if (password_verify($body['password'], $user['password'])) {
         $_SESSION['loggedIn'] = true;
-        $_SESSION['userID'] = $user['id'];
-        return $response->withJson(['data' => [ $user['id'], $user['username'] ]]);
+        $_SESSION['userID'] = $user['userID'];
+        $_SESSION['username'] = $user['username'];
+        $url = 'views/entry_page.php';
+        return $response->withJson(['data' => [ $user['userID'], $user['username'] ]])->withHeader('Location', $url);
     }
     return $response->withJson(['error' => 'wrong password']);
 });
@@ -67,7 +68,8 @@ $app->post('/login', function ($request, $response, $args) {
 $app->get('/logout', function ($request, $response, $args) {
     // No request data is being sent
     session_destroy();
-    return $response->withJson('Success');
+    $url = '../index.php';
+    return $response->withHeader('Location', $url);
 });
 
 
@@ -81,8 +83,7 @@ $app->group('/api', function () use ($app) {
 // -------------------------------- ENTRIES ROUTES --------------------------------
 
     // Entries - Get last 20 entries - GET http://localhost:XXXX/api/entries
-    $app->get('/entries', function ($request, $response, $args) {
-
+    $app->get('/entries', function ($request, $response, $args) {	
         $allEntries = $this->entries->getAll();
         /**
          * Wrapping the data when returning as a safety thing
@@ -124,6 +125,12 @@ $app->group('/api', function () use ($app) {
         return $response->withJson(['data' => $newEntry]);
     });
 
+    //Entries - Get all entries by a user specified user - GET http://localhost:XXXX/api/users/{id}/entries
+    $app->get('/users/{id}/entries', function ($request, $response, $args) {
+        $allEntriesByUser = $this->entries->getEntriesById($args['id']);
+        return $response->withJson(['data' => $allEntriesByUser]);
+    });
+
 // --------------------------- END ENTRIES ROUTES --------------------------------------
 
 // --------------------------- COMMENTS ROUTES -----------------------------------------
@@ -154,18 +161,34 @@ $app->group('/api', function () use ($app) {
         $this->comments->delete($id);
     });
 
+    //Comments - Get all comments connected to a specific entry defined by the user - GET http://localhost:XXXX/api/entries/{id}/comments
+    $app->get('/entries/{id}/comments', function ($request, $response, $args) {
+        $allCommentsByEntry = $this->comments->getCommentsById($args['id']);
+        return $response->withJson(['data' => $allCommentsByEntry]);
+    });
+
 // ---------------------- END COMMENTS ROUTES ------------------------------------------
 
 // ----------------------- USER ROUTES ------------------------------------------------
  
+    //Users - Get all users - GET http://localhost:XXXX/api/users
     $app->get('/users', function ($request, $response, $args) {
         $allUsers = $this->users->getAll();
         return $response->withJson($allUsers);
     });
 
+    //Users - Get one specified user - GET http://localhost:XXXX/api/users/{id}
     $app->get('/users/{id}', function ($request, $response, $args) {
         $allUsers = $this->users->getOne($args['id']);
         return $response->withJson($allUsers);
+    });
+
+    //Users - Register a user - POST http://localhost:XXXX/api/register
+    $app->post('/register', function ($request, $response, $args) {
+        $body = $request->getParsedBody();
+        $newUser = $this->users->register($body);
+        $url = '../index.php';
+        return $response->withJson(['data' => $newUser])->withHeader('Location', $url); //The withHeader part redirects after data is sent
     });
 });
 

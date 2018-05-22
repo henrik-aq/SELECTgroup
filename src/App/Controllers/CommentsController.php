@@ -23,17 +23,18 @@ class CommentsController
     //This gets all comments but limits it to 20 and sorts them in descending order
     public function getAll()
     {
-        $getAll = $this->db->prepare('SELECT * FROM comments ORDER BY commentID DESC LIMIT 20');
+        $getAll = $this->db->prepare(
+            'SELECT * FROM comments ORDER BY commentID DESC LIMIT 20');
         $getAll->execute();
         $allComments = $getAll->fetchAll();
-        
         return $allComments;
     }
 
-    //This just gets one comment that matches '/comments/{is}'
+    //This just gets one comment that matches '/comments/{id}'
     public function getOne($id)
     {
-        $getOne = $this->db->prepare('SELECT * FROM comments WHERE commentID = :commentID');
+        $getOne = $this->db->prepare(
+            'SELECT * FROM comments WHERE commentID = :commentID');
         $getOne->execute([':commentID' => $id]);
         return $getOne->fetch();
     }
@@ -43,12 +44,15 @@ class CommentsController
     {
 
         $addOne = $this->db->prepare(
-            'INSERT INTO comments (content, createdAt, createdBy) VALUES (:content, :createdAt, :createdBy)'
-        );
+            'INSERT INTO comments (content, createdAt, createdBy)
+            VALUES (:content, :createdAt, :createdBy)');
+
+        date_default_timezone_set('Europe/Stockholm');
+        $date = date("Y-m-d H:i:s");
 
         $addOne->execute([
           ':content'  => $comments['content'],
-          ':createdAt' => $comments['createdAt'],
+          ':createdAt' => $date,
           ':createdBy' => $comments['createdBy']
         ]);
     }
@@ -57,11 +61,25 @@ class CommentsController
     public function delete($id)
     {
         $deleteOne = $this->db->prepare(
-            'DELETE FROM comments WHERE commentID = :commentID '
-        );
+            'DELETE FROM comments WHERE commentID = :commentID ');
         $deleteOne->execute([
         ':commentID'  => $id
         ]);
     }
-}
 
+    //This selects all comments connected to a user specified entry 
+    public function getCommentsById($id)
+    {
+        $getCommentsById = $this->db->prepare(
+        "SELECT comments.content 
+        FROM comments
+        INNER JOIN entries ON entries.entryID = comments.entryID
+        WHERE entries.entryID = :entryID");
+        $getCommentsById->execute([
+          ":entryID" => $id
+        ]);
+        $allCommentsFromEntry = $getCommentsById->fetchAll();
+        return $allCommentsFromEntry;
+    }
+
+}
