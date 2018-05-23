@@ -19,32 +19,43 @@ window.onload = async function showAll(){
     var commentData = await getCommentsByEntry(id);
 
     var container = document.createElement("DIV");
+    container.setAttribute("class","title-content-wrapper");
 
     var titleNode = document.createElement("H3");
     var titleText = document.createTextNode(data.data[i].title);
+    titleNode.setAttribute("class","title-text");
     
     var contentNode = document.createElement("P");
     var contentText = document.createTextNode(data.data[i].content);
+    contentNode.setAttribute("class","content-text");
 
+
+    //////////////////////////////////////////////////////
     let commentForm = document.createElement("form");
      commentForm.setAttribute("action","/comments");
      commentForm.setAttribute("method","post");
+     commentForm.setAttribute("class", "commentForm")
 
     var inputBox = document.createElement("textarea");
     inputBox.setAttribute("type", "input");
     inputBox.setAttribute("name","content");
+    inputBox.setAttribute("class", "commentInput");
+    inputBox.setAttribute("placeholder", "Commet something!");
 
     var inputButton = document.createElement("INPUT");
     inputButton.setAttribute("type","submit");
     inputButton.setAttribute("onclick", "createOneComment");
     inputButton.setAttribute("value","Comment");
     inputButton.setAttribute("name","commentButton");
+    inputButton.setAttribute("class", "commentButton")
 
     var entryInput = document.createElement('input');
     entryInput.type = "hidden";
     entryInput.value = data.data[i].entryID;
     entryInput.name = "entryID";
     commentForm.appendChild(entryInput);  
+
+
 
     commentForm.addEventListener("submit", function(e){
       e.preventDefault();
@@ -56,21 +67,31 @@ window.onload = async function showAll(){
     let patchForm = document.createElement("form");
      patchForm.setAttribute("action","/entries");
      patchForm.setAttribute("method","post");
+     patchForm.setAttribute("class","patchForm");
+
+   
 
      var patchTitleBox = document.createElement("input");
      patchTitleBox.setAttribute("type", "text");
      patchTitleBox.setAttribute("name","title");
+     patchTitleBox.setAttribute("placeholder","Edit Title");
+     patchTitleBox.setAttribute("class","edit-title");
+
 
     var patchContentBox = document.createElement("textarea");
     patchContentBox.setAttribute("type", "input");
     patchContentBox.setAttribute("name","content");
+    patchContentBox.setAttribute("placeholder","Edit content");
+    patchContentBox.setAttribute("class","edit-content");
 
 
     var patchButton = document.createElement("input");
     patchButton.setAttribute("type","submit");
     patchButton.setAttribute("onclick", "patchEntry");
     patchButton.setAttribute("value","Edit");
-    patchButton.setAttribute("name","commentButton");
+    patchButton.setAttribute("name","PatchButton");
+    patchButton.setAttribute("class","edit-button");
+    
 
     var patchInput = document.createElement('input');
     patchInput.type = "hidden";
@@ -113,6 +134,7 @@ window.onload = async function showAll(){
       inputButton.setAttribute("type", "button");
       inputButton.setAttribute("value", "remove");
       inputButton.setAttribute("onclick", "deleteOneComment("+ id + ");");
+      inputButton.setAttribute("class", "commentRemoveButton")
 
       
     inputButton.addEventListener("click", function(){
@@ -124,6 +146,8 @@ window.onload = async function showAll(){
       commentNode.appendChild(commentText);
       document.getElementById('entryList').appendChild(container).appendChild(commentNode);
       document.getElementById('entryList').appendChild(container).appendChild(inputButton);
+
+      commentNode.setAttribute("class", "commentText")
     }
 
   }

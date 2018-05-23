@@ -1,0 +1,159 @@
+.current-user-online
+{
+    font-size: 30px;
+    text-align: center;
+}
+
+/*This form is to post all entries*/
+#postForm{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+/*This form is to edit title and content*/
+.patchForm
+{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+
+/*Styling on all text from input*/
+#postForm input[type=text], select {
+    width: 50%;
+    padding: 6px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/*Styling on the button*/
+#postForm input[type=submit] {
+    width: 50%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/*Hover animation on input*/
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+
+.title-content-wrapper
+{
+    border: 1px solid black;
+    margin-top: 50px;
+}
+
+.title-text, .content-text
+{
+    text-align: center;
+}
+
+.content-text
+{
+    margin: 0px 400px;
+}
+
+.commentForm
+{
+    margin-top: 60px;
+    text-align: center;
+}
+
+/*This is input for comment*/
+.commentInput
+{
+    width: 30%;
+    padding: 6px 10px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/*This is the button for the comment.*/
+.commentButton
+{
+    width: 20%;
+    background-color: #428bca;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 30px auto;
+}
+
+
+/*This is the comments text*/
+.commentText
+{
+
+}
+
+
+/*This button removes a single comment*/
+.commentRemoveButton
+{
+    width: 5%;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
+
+
+/*This is the edit title input*/
+.edit-title
+{
+    width: 50%;
+    padding: 6px 10px;
+    margin: 0 auto;
+    margin-top: 60px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+/*This is edit content input*/
+.edit-content
+{
+    width: 50%;
+    padding: 6px 10px;
+    margin: 0 auto;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 25px;
+}
+
+
+/*This is the edit button*/
+.edit-button
+{
+    width: 20%;
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 0px auto;
+    margin-bottom: 30px;
+}
