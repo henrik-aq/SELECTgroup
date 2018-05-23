@@ -123,12 +123,14 @@ window.onload = async function showAll(){
     document.getElementById('entryList').appendChild(container).appendChild(commentForm);
     document.getElementById('entryList').appendChild(container).appendChild(patchForm);
 
-    
-    
 
     for(var y = 0; y < commentData.data.length; y++){
 
       var id = commentData.data[y].commentID;
+
+      inputButton.addEventListener("click", function(){
+        location.reload();
+      }); 
 
     var inputButton = document.createElement("INPUT");
       inputButton.setAttribute("type", "button");
@@ -136,22 +138,15 @@ window.onload = async function showAll(){
       inputButton.setAttribute("onclick", "deleteOneComment("+ id + ");");
       inputButton.setAttribute("class", "commentRemoveButton")
 
-      
-    inputButton.addEventListener("click", function(){
-      location.reload();
-    }); 
-
       var commentNode = document.createElement("p");
       var commentText = document.createTextNode(commentData.data[y].content);
       commentNode.appendChild(commentText);
       document.getElementById('entryList').appendChild(container).appendChild(commentNode);
       document.getElementById('entryList').appendChild(container).appendChild(inputButton);
 
-      commentNode.setAttribute("class", "commentText")
+      commentNode.setAttribute("class","commentText")
     }
-
   }
-
 };
 
 
