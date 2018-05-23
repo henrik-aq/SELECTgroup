@@ -44,8 +44,8 @@ class CommentsController
     {
 
         $addOne = $this->db->prepare(
-            'INSERT INTO comments (content, createdAt, createdBy)
-            VALUES (:content, :createdAt, :createdBy)');
+            'INSERT INTO comments (content, createdAt, entryID)
+            VALUES (:content, :createdAt, :entryID)');
 
         date_default_timezone_set('Europe/Stockholm');
         $date = date("Y-m-d H:i:s");
@@ -53,7 +53,7 @@ class CommentsController
         $addOne->execute([
           ':content'  => $comments['content'],
           ':createdAt' => $date,
-          ':createdBy' => $comments['createdBy']
+          ':entryID' => $comments['entryID']
         ]);
     }
 

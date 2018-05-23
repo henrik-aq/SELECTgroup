@@ -63,10 +63,38 @@ var api = (function(){
             'Content-Type': 'application/json',
             credentials: 'include'
             }
-        }).then( function(data) {
+        }).then( function() {
             console.log('Request success:');
         });
     }
+
+
+    async function createOneEntry(content){
+        fetch('http://localhost:3030/api/entries',{
+            method: 'POST',
+            body: JSON.stringify(content),
+            headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            credentials: 'include'
+            }
+        }).then( function() {
+            console.log('entry post success:');
+        });
+    }
+
+
+    async function patchEntry(data){
+        fetch(`http://localhost:3030/api/entries/${data.entryID}`,{
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `content=${data.content}&title=${data.title}`,
+            
+         }).then( function() {
+            console.log(' post success:');
+        });
+    }
+
 
     return {
         getAllEntries:getAllEntries,
@@ -77,5 +105,7 @@ var api = (function(){
         getCommentsByEntry:getCommentByEntry,
         deleteOneComment:deleteOneComment,
         createOneComment:createOneComment,
+        createOneEntry:createOneEntry,
+        patchEntry:patchEntry,
     };
 })();

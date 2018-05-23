@@ -1,9 +1,19 @@
 window.onload = async function showAll(){
   var data = await getAllEntries();
-  console.log(data);
+  
+  let postForm = document.getElementById("postForm")
+  postForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    createOneEntry(e);
+    location.reload();
+  }); 
+
 
   var i;
   for(i in data.data){
+
+
+
     
     var id = data.data[i].entryID;
     var commentData = await getCommentsByEntry(id);
@@ -19,7 +29,6 @@ window.onload = async function showAll(){
     let commentForm = document.createElement("form");
      commentForm.setAttribute("action","/comments");
      commentForm.setAttribute("method","post");
-     commentForm.setAttribute("class","new-comment-btn-form");
 
     var inputBox = document.createElement("textarea");
     inputBox.setAttribute("type", "input");
@@ -27,24 +36,71 @@ window.onload = async function showAll(){
 
     var inputButton = document.createElement("INPUT");
     inputButton.setAttribute("type","submit");
-    inputButton.setAttribute("value", "Send");
+    inputButton.setAttribute("onclick", "createOneComment");
     inputButton.setAttribute("value","Comment");
     inputButton.setAttribute("name","commentButton");
+
+    var entryInput = document.createElement('input');
+    entryInput.type = "hidden";
+    entryInput.value = data.data[i].entryID;
+    entryInput.name = "entryID";
+    commentForm.appendChild(entryInput);  
 
     commentForm.addEventListener("submit", function(e){
       e.preventDefault();
       createOneComment(e);
+      location.reload();
     }); 
 
+    ///////////////////////////////////////////////
+    let patchForm = document.createElement("form");
+     patchForm.setAttribute("action","/entries");
+     patchForm.setAttribute("method","post");
+
+     var patchTitleBox = document.createElement("input");
+     patchTitleBox.setAttribute("type", "text");
+     patchTitleBox.setAttribute("name","title");
+
+    var patchContentBox = document.createElement("textarea");
+    patchContentBox.setAttribute("type", "input");
+    patchContentBox.setAttribute("name","content");
+
+
+    var patchButton = document.createElement("input");
+    patchButton.setAttribute("type","submit");
+    patchButton.setAttribute("onclick", "patchEntry");
+    patchButton.setAttribute("value","Edit");
+    patchButton.setAttribute("name","commentButton");
+
+    var patchInput = document.createElement('input');
+    patchInput.type = "hidden";
+    patchInput.value = data.data[i].entryID;
+    patchInput.name = "entryID";
+    patchForm.appendChild(patchInput);  
+
+    patchForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      patchEntry(e);
+      location.reload();
+    }); 
+
+
+
+    ///////////////////////////////////////////////
     titleNode.appendChild(titleText);
     contentNode.appendChild(contentText);
 
     commentForm.appendChild(inputBox);
     commentForm.appendChild(inputButton);
 
+    patchForm.appendChild(patchTitleBox);
+    patchForm.appendChild(patchContentBox);
+    patchForm.appendChild(patchButton);
+
     document.getElementById('entryList').appendChild(container).appendChild(titleNode);
     document.getElementById('entryList').appendChild(container).appendChild(contentNode);
     document.getElementById('entryList').appendChild(container).appendChild(commentForm);
+    document.getElementById('entryList').appendChild(container).appendChild(patchForm);
 
     
     
@@ -57,6 +113,11 @@ window.onload = async function showAll(){
       inputButton.setAttribute("type", "button");
       inputButton.setAttribute("value", "remove");
       inputButton.setAttribute("onclick", "deleteOneComment("+ id + ");");
+
+      
+    inputButton.addEventListener("click", function(){
+      location.reload();
+    }); 
 
       var commentNode = document.createElement("p");
       var commentText = document.createTextNode(commentData.data[y].content);
@@ -92,6 +153,25 @@ async function createOneComment(e) {
     "content": e.target.elements["content"].value
   };
   api.createOneComment(data);
+ }
+
+ async function createOneEntry(e) {
+  let data = {
+    "title": e.target.elements["title"].value,
+    "createdBy": e.target.elements["createdBy"].value,
+    "content": e.target.elements["content"].value
+  };
+  api.createOneEntry(data);
+ }
+
+
+ async function patchEntry(e) {
+  let data = {
+    "title": e.target.elements["title"].value,
+    "content": e.target.elements["content"].value,
+    "entryID": e.target.elements["entryID"].value
+  };
+  api.patchEntry(data);
  }
 
 
