@@ -1,5 +1,7 @@
-window.onload = async function showAll(){
-  var data = await getAllEntries();
+let allEntries = [];
+window.onload = async function showAll(data){
+  data = await getAllEntries();
+  allEntries = data;
   
   let postForm = document.getElementById("postForm")
   postForm.addEventListener("submit", function(e){
@@ -207,6 +209,67 @@ async function createOneComment(e) {
   };
   api.patchEntry(data);
  }
+
+
+ function getTitle(titleInput) {
+  let entryOutput = document.getElementById('entryList');
+  entryOutput.innerHTML = "";
+  let entry = allEntries.data.find(test => test.title == titleInput);
+  console.log(entry);
+  
+  var container = document.createElement("DIV");
+
+  var titleNode = document.createElement("H3");
+  var titleText = document.createTextNode(entry.title);
+  
+  var contentNode = document.createElement("P");
+  var contentText = document.createTextNode(entry.content);
+
+  let commentForm = document.createElement("form");
+   commentForm.setAttribute("action","/comments");
+   commentForm.setAttribute("method","post");
+   commentForm.setAttribute("class","new-comment-btn-form");
+
+  var inputBox = document.createElement("textarea");
+  inputBox.setAttribute("type", "input");
+  inputBox.setAttribute("name","content");
+
+  var inputButton = document.createElement("INPUT");
+  inputButton.setAttribute("type","submit");
+   inputButton.setAttribute("value","Comment");
+  inputButton.setAttribute("name","entryID");
+
+  commentForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    createOneComment(e);
+  }); 
+
+  titleNode.appendChild(titleText);
+  contentNode.appendChild(contentText);
+
+  commentForm.appendChild(inputBox);
+  commentForm.appendChild(inputButton);
+
+  document.getElementById('entryList').appendChild(container).appendChild(titleNode);
+  document.getElementById('entryList').appendChild(container).appendChild(contentNode);
+  document.getElementById('entryList').appendChild(container).appendChild(commentForm);
+
+  fetch('api/entries/title/' + titleInput)
+    .then(res => res.json())
+    
+}
+
+function searchForTitle() {
+  let titleForm = document.getElementById('titleForm');
+  titleForm.addEventListener('submit', function(e) {
+    let titleInput = document.getElementById('titleInput').value;
+    e.preventDefault();
+    getTitle(titleInput);
+    
+  });
+}
+
+searchForTitle();
 
 
 
