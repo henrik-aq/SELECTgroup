@@ -29,6 +29,15 @@ window.onload = async function showAll(){
     var contentText = document.createTextNode(data.data[i].content);
     contentNode.setAttribute("class","content-text");
 
+    var delEntryButton = document.createElement("button");
+    delEntryButton.innerHTML = "Delete";
+
+    var delEntryButton = document.createElement("INPUT");
+    delEntryButton.setAttribute("type", "button");
+    delEntryButton.setAttribute("value", "Remove post");
+    delEntryButton.setAttribute("onclick", "deleteOneEntry("+ id + ");");
+    delEntryButton.setAttribute("class", "delEntryButton");
+
 
     //////////////////////////////////////////////////////
     let commentForm = document.createElement("form");
@@ -120,6 +129,7 @@ window.onload = async function showAll(){
 
     document.getElementById('entryList').appendChild(container).appendChild(titleNode);
     document.getElementById('entryList').appendChild(container).appendChild(contentNode);
+    document.getElementById("entryList").appendChild(container).appendChild(delEntryButton);
     document.getElementById('entryList').appendChild(container).appendChild(commentForm);
     document.getElementById('entryList').appendChild(container).appendChild(patchForm);
 
@@ -136,7 +146,7 @@ window.onload = async function showAll(){
       inputButton.setAttribute("type", "button");
       inputButton.setAttribute("value", "remove");
       inputButton.setAttribute("onclick", "deleteOneComment("+ id + ");");
-      inputButton.setAttribute("class", "commentRemoveButton")
+      inputButton.setAttribute("class", "commentRemoveButton");
 
       var commentNode = document.createElement("p");
       var commentText = document.createTextNode(commentData.data[y].content);
@@ -163,6 +173,11 @@ async function getCommentsByEntry(id){
 
 async function deleteOneComment(id){
   let response = await api.deleteOneComment(id);
+  return response;
+}
+
+async function deleteOneEntry(id){
+  let response = await api.deleteOneEntry(id);
   return response;
 }
 

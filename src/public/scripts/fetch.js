@@ -68,6 +68,14 @@ var api = (function(){
         });
     }
 
+    async function deleteOneEntry(id){
+        fetch(`http://localhost:3030/api/entries/${id}`, {
+          method: "DELETE"
+        }).then( function() {
+          console.log("Deleted!");
+        });
+      }
+
 
     async function createOneEntry(content){
         fetch('http://localhost:3030/api/entries',{
@@ -107,5 +115,6 @@ var api = (function(){
         createOneComment:createOneComment,
         createOneEntry:createOneEntry,
         patchEntry:patchEntry,
+        deleteOneEntry:deleteOneEntry,
     };
 })();
