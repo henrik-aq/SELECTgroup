@@ -7,7 +7,7 @@
 <?php endif; ?>
 
 <?php if (!isset($_SESSION["loggedIn"])): ?>
-<p>Registera dig eller logga in om du redan är användare!</p>
+<p class="info">Registera dig eller logga in om du redan är användare!</p>
 <?php require_once ('partials/register.php');?>
 <?php require_once ('partials/login.php');?>
 
