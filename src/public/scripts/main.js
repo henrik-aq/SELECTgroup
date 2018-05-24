@@ -40,6 +40,10 @@ window.onload = async function showAll(data){
     delEntryButton.setAttribute("onclick", "deleteOneEntry("+ id + ");");
     delEntryButton.setAttribute("class", "delEntryButton");
 
+    delEntryButton.addEventListener("click", function(){
+      location.reload();
+    });
+
 
     //////////////////////////////////////////////////////
     let commentForm = document.createElement("form");
